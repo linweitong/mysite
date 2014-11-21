@@ -19,7 +19,7 @@ Application Healthcheck URL=
 
 [aws:elasticbeanstalk:application:environment]
 DJANGO_SETTINGS_MODULE=
-PARAM1=
+PARAM1=1
 PARAM2=
 PARAM3=
 PARAM4=

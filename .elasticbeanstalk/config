@@ -1,12 +1,12 @@
 [global]
 ApplicationName=mysite
-AwsCredentialFile=C:\Users\wlin\.elasticbeanstalk\aws_credential_file
+#AwsCredentialFile=~/.elasticbeanstalk/aws_credential_file
 DevToolsEndpoint=git.elasticbeanstalk.us-east-1.amazonaws.com
 EnvironmentName=mysite-env
 EnvironmentTier=WebServer::Standard::1.0
 EnvironmentType=SingleInstance
 InstanceProfileName=aws-elasticbeanstalk-ec2-role
-OptionSettingFile=D:\workspace\mysite\.elasticbeanstalk\optionsettings.mysite-env
+OptionSettingFile=./.elasticbeanstalk/optionsettings.mysite-env
 RdsDeletionPolicy=Delete
 RdsEnabled=Yes
 RdsSourceSnapshotName=
