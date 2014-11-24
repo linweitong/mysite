@@ -1,9 +1,11 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Place(models.Model):
     PLACE_TYPE = (
         (1, 'Club'),
+        (2, 'Coffee')
     )
 
     name = models.CharField(max_length=200)
@@ -14,16 +16,22 @@ class Place(models.Model):
     geo_latitude = models.FloatField()
     geo_longitude = models.FloatField()
     # Json to store additional info
-    addition_info = models.TextField()
-    creator = models.ForeignKey('auth.User', related_name='places')
+    addition_info = models.TextField(null=True)
+    creator = models.ForeignKey('auth.User')
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
 
 
+    def __unicode__(self):
+        return self.name
+
+
 class Video(models.Model):
     # video info
-    videoThumbnail = models.CharField(max_length=200)
-    video = models.FileField()
+    thumbnail = models.CharField(max_length=200)
+    file = models.CharField(max_length=200)
+    description = models.CharField(max_length=200)
+
     # location
     location = models.CharField(max_length=200)
     geo_latitude = models.FloatField()
@@ -32,7 +40,7 @@ class Video(models.Model):
     creator = models.ForeignKey('auth.User', related_name='videos')
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
-    place = models.ForeignKey(Place)
+    place = models.ForeignKey(Place, related_name='videos')
 
 
 class Comment(models.Model):
@@ -45,7 +53,13 @@ class Comment(models.Model):
     creator = models.ForeignKey('auth.User', related_name='videos+')
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
-    video = models.ForeignKey(Video)
+    comment_on = models.ForeignKey(Video)
+
+
+class VSUser(User):
+    thirdPartId = models.BigIntegerField(null=True)
+    thirdPartAccessToken = models.CharField(max_length=400, null=True)
+    accessToken = models.CharField(max_length=200, null=True)
 
 
 

@@ -19,11 +19,10 @@
       </profile-state>
     </entry>
   </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="Python 2.7.8 (D:\Python27\python.exe)" project-jdk-type="Python SDK" />
+  <component name="ProjectRootManager" version="2" project-jdk-name="Python 2.7.5 (/System/Library/Frameworks/Python.framework/Versions/2.7/bin/python2.7)" project-jdk-type="Python SDK" />
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
       <console-settings />
     </option>
   </component>
 </project>
-
