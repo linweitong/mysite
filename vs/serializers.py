@@ -47,3 +47,13 @@ class VCUserSerializer(serializers.ModelSerializer):
         model = VSUser
         fields = ('id', 'username', 'accessToken')
 
+class CommentSerializer(serializers.ModelSerializer):
+    type = serializers.Field(source=False)
+    creator = UserSerializer(read_only=True)
+    video = PlaceVideoSerializer(read_only=True)
+
+    class Meta:
+        model = Comment
+        fields = ('id', 'text', 'type', 'creator', 'created_date','updated_date','video')
+
+

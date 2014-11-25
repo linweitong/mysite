@@ -1,5 +1,5 @@
-from vs.models import Place, VSUser, PlaceVideo
-from vs.serializers import PlaceSerializer, PlaceVideoSerializer, VCUserSerializer, PaginatedPlaceSerializer
+from vs.models import Place, VSUser, PlaceVideo, Comment
+from vs.serializers import PlaceSerializer, PlaceVideoSerializer, VCUserSerializer, PaginatedPlaceSerializer, CommentSerializer
 from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -104,6 +104,31 @@ class PlaceVideos(APIView):
 
         serializer = PlaceVideoSerializer(placeVideo)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+
+class VideoComments(APIView):
+    def get(self, request, videoId, format=None):
+        comments = Comment.objects.filter(video_id=videoId)
+        serializer = CommentSerializer(comments, many=True)
+        return Response(serializer.data)
+
+
+    def post(self, request, videoId, format=None):
+        try:
+            placeVideo = PlaceVideo.objects.get(pk=videoId)
+        except Place.DoesNotExist:
+            raise Http404
+
+        serializer = CommentSerializer(data=request.DATA)
+        if serializer.is_valid():
+            serializer.object.type = 2 #1:like 2:comment
+            serializer.object.creator = self.request.user
+            serializer.object.video = placeVideo
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class Authentication(APIView):

@@ -26,9 +26,10 @@ class Place(models.Model):
         return self.name
 
 
+def file_path(self, filename=None):
+    return str.format('%s/%s_%s' %(self.place.id, int(time.time()), str(filename)))
+
 class PlaceVideo(models.Model):
-    def file_path(self, filename=None):
-        return str.format('%s/%s_%s' %(self.place.id, int(time.time()), str(filename)))
 
     # video info
     thumbnail = models.CharField(max_length=200, null=True)
@@ -56,7 +57,7 @@ class Comment(models.Model):
     creator = models.ForeignKey('auth.User')
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
-    comment_on = models.ForeignKey(PlaceVideo)
+    video = models.ForeignKey(PlaceVideo)
 
 
 class VSUser(User):
