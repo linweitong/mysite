@@ -16,11 +16,5 @@ class Migration(migrations.Migration):
             model_name='comment',
             old_name='comment_on',
             new_name='video',
-        ),
-        migrations.AlterField(
-            model_name='placevideo',
-            name='video',
-            field=models.FileField(upload_to=vs.models.file_path),
-            preserve_default=True,
-        ),
+        )
     ]

@@ -1,15 +1,15 @@
 from vs.models import Place, VSUser, PlaceVideo, Comment
-from vs.serializers import PlaceSerializer, PlaceVideoSerializer, VCUserSerializer, PaginatedPlaceSerializer, CommentSerializer
+from vs.serializers import PlaceSerializer, PlaceVideoSerializer, VCUserSerializer, \
+    PaginatedPlaceSerializer, CommentSerializer, PaginatedCommentSerializer, PaginatedPlaceVideoSerializer
 from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.authtoken.models import Token
-from django.contrib.auth.models import User
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from urllib2 import urlopen
 import json, time
-
+from django.conf import settings
 
 class PlaceList(APIView):
     """
@@ -22,7 +22,7 @@ class PlaceList(APIView):
     #     return Response(serializer.data)
 
     def get(self, request, format=None):
-        numPerPage = 2
+        numPerPage = settings.PAGE_NUM
         places = Place.objects.all()
         paginator = Paginator(places, numPerPage)
         page = request.QUERY_PARAMS.get('page')
@@ -83,11 +83,31 @@ class PlaceDetail(APIView):
 
 
 class PlaceVideos(APIView):
-    def get(self, request, placeId, format=None):
-        placeVideos = PlaceVideo.objects.filter(place_id=placeId)
-        serializer = PlaceVideoSerializer(placeVideos, many=True)
-        return Response(serializer.data)
+    # def get(self, request, placeId, format=None):
+    #     placeVideos = PlaceVideo.objects.filter(place_id=placeId)
+    #     serializer = PlaceVideoSerializer(placeVideos, many=True)
+    #     return Response(serializer.data)
 
+    def get(self, request, placeId, format=None):
+        numPerPage = settings.PAGE_NUM
+        placeVideos = PlaceVideo.objects.filter(place_id=placeId)
+        paginator = Paginator(placeVideos, numPerPage)
+        page = request.QUERY_PARAMS.get('page')
+        try:
+            placeVideos = paginator.page(page)
+        except PageNotAnInteger:
+            # If page is not an integer, deliver first page.
+            placeVideos = paginator.page(1)
+        except EmptyPage:
+            # If page is out of range (e.g. 9999),
+            # deliver last page of results.
+            placeVideos = paginator.page(paginator.num_pages)
+
+        serializer_context = {'request': request}
+        serializer = PaginatedPlaceVideoSerializer(placeVideos,
+                                         context=serializer_context)
+
+        return Response(serializer.data)
 
     def post(self, request, placeId, format=None):
         try:
@@ -95,7 +115,7 @@ class PlaceVideos(APIView):
         except Place.DoesNotExist:
             raise Http404
 
-        placeVideo = PlaceVideo(video=request.FILES['video'])
+        placeVideo = PlaceVideo(video=request.FILES['video'], thumbnail=request.FILES['thumbnail'])
         placeVideo.creator = self.request.user
         placeVideo.place = place
         placeVideo.geo_latitude = 1.111
@@ -108,9 +128,29 @@ class PlaceVideos(APIView):
 
 
 class VideoComments(APIView):
+    # def get(self, request, videoId, format=None):
+    #     comments = Comment.objects.filter(video_id=videoId)
+    #     serializer = CommentSerializer(comments, many=True)
+    #     return Response(serializer.data)
     def get(self, request, videoId, format=None):
+        numPerPage = settings.PAGE_NUM
         comments = Comment.objects.filter(video_id=videoId)
-        serializer = CommentSerializer(comments, many=True)
+        paginator = Paginator(comments, numPerPage)
+        page = request.QUERY_PARAMS.get('page')
+        try:
+            comments = paginator.page(page)
+        except PageNotAnInteger:
+            # If page is not an integer, deliver first page.
+            comments = paginator.page(1)
+        except EmptyPage:
+            # If page is out of range (e.g. 9999),
+            # deliver last page of results.
+            comments = paginator.page(paginator.num_pages)
+
+        serializer_context = {'request': request}
+        serializer = PaginatedCommentSerializer(comments,
+                                         context=serializer_context)
+
         return Response(serializer.data)
 
 

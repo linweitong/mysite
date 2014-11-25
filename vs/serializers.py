@@ -31,15 +31,27 @@ class PaginatedPlaceSerializer(PaginationSerializer):
 
 class PlaceVideoSerializer(serializers.ModelSerializer):
     video_url = serializers.SerializerMethodField('get_video_url')
+    thumbnail_url = serializers.SerializerMethodField('get_thumbnail_url')
     creator = UserSerializer(read_only=True)
 
     def get_video_url(self, obj):
-        return settings.VIDEO_BASE_URL + obj.video.url
+        return settings.MEDIA_BASE_URL + obj.video.url
+
+    def get_thumbnail_url(self, obj):
+        return settings.MEDIA_BASE_URL + obj.thumbnail.url
 
     class Meta:
         model = PlaceVideo
-        fields = ('id', 'thumbnail', 'video_url', 'creator', 'location', 'geo_latitude', 'geo_longitude',
+        fields = ('id', 'thumbnail_url', 'video_url', 'creator', 'location', 'geo_latitude', 'geo_longitude',
                   'created_date', 'updated_date')
+
+class PaginatedPlaceVideoSerializer(PaginationSerializer):
+    """
+    Serializes page objects of user querysets.
+    """
+    class Meta:
+        object_serializer_class = PlaceVideoSerializer
+
 
 
 class VCUserSerializer(serializers.ModelSerializer):
@@ -56,4 +68,11 @@ class CommentSerializer(serializers.ModelSerializer):
         model = Comment
         fields = ('id', 'text', 'type', 'creator', 'created_date','updated_date','video')
 
+
+class PaginatedCommentSerializer(PaginationSerializer):
+    """
+    Serializes page objects of user querysets.
+    """
+    class Meta:
+        object_serializer_class = CommentSerializer
 

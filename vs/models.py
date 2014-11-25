@@ -26,13 +26,16 @@ class Place(models.Model):
         return self.name
 
 
-def file_path(self, filename=None):
-    return str.format('%s/%s_%s' %(self.place.id, int(time.time()), str(filename)))
+def thumbnail_path(self, filename=None):
+    return str.format('%s/thumbnails/%s_%s' %(self.place.id, int(time.time()), str(filename)))
+
+def video_path(self, filename=None):
+    return str.format('%s/videos/%s_%s' %(self.place.id, int(time.time()), str(filename)))
 
 class PlaceVideo(models.Model):
 
     # video info
-    thumbnail = models.CharField(max_length=200, null=True)
+    thumbnail = models.FileField(upload_to=thumbnail_path)
     description = models.CharField(max_length=200)
 
     # location
@@ -40,7 +43,7 @@ class PlaceVideo(models.Model):
     geo_latitude = models.FloatField()
     geo_longitude = models.FloatField()
 
-    video = models.FileField(upload_to=file_path)
+    video = models.FileField(upload_to=video_path)
     creator = models.ForeignKey('auth.User')
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
