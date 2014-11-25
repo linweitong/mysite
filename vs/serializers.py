@@ -2,6 +2,7 @@ from rest_framework import serializers
 from vs.models import Place, Comment, VSUser, PlaceVideo
 from django.contrib.auth.models import User
 from rest_framework.pagination import PaginationSerializer
+from django.conf import settings
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -29,10 +30,15 @@ class PaginatedPlaceSerializer(PaginationSerializer):
 
 
 class PlaceVideoSerializer(serializers.ModelSerializer):
-    creator =  UserSerializer(read_only=True)
+    video_url = serializers.SerializerMethodField('get_video_url')
+    creator = UserSerializer(read_only=True)
+
+    def get_video_url(self, obj):
+        return settings.VIDEO_BASE_URL + obj.video.url
+
     class Meta:
         model = PlaceVideo
-        fields = ('id', 'thumbnail', 'video', 'creator', 'location', 'geo_latitude', 'geo_longitude',
+        fields = ('id', 'thumbnail', 'video_url', 'creator', 'location', 'geo_latitude', 'geo_longitude',
                   'created_date', 'updated_date')
 
 

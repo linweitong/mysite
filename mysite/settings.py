@@ -102,6 +102,6 @@ AWS_ACCESS_KEY_ID = 'AKIAJA4DGSVSDWVFLV4Q'
 AWS_SECRET_ACCESS_KEY = '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'
 AWS_STORAGE_BUCKET_NAME = 'snowleaopardvideo'
 #DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
-S3_URL = 'https://s3.amazonaws.com/snowleaopardvideo'
+VIDEO_BASE_URL = 'https://s3.amazonaws.com/snowleaopardvideo/'
 
 
