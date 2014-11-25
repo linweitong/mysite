@@ -1,5 +1,5 @@
-from vs.models import Place, Video, Comment, VSUser
-from vs.serializers import PlaceSerializer, VideoSerializer, VCUserSerializer, PaginatedPlaceSerializer
+from vs.models import Place, VSUser, PlaceVideo
+from vs.serializers import PlaceSerializer, PlaceVideoSerializer, VCUserSerializer, PaginatedPlaceSerializer
 from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -8,7 +8,7 @@ from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from urllib2 import urlopen
-import json
+import json, time
 
 
 class PlaceList(APIView):
@@ -83,25 +83,27 @@ class PlaceDetail(APIView):
 
 
 class PlaceVideos(APIView):
-    def get(self, request, pk, format=None):
-        videos = Video.objects.filter(place_id=pk)
-        serializer = VideoSerializer(videos, many=True)
+    def get(self, request, placeId, format=None):
+        placeVideos = PlaceVideo.objects.filter(place_id=placeId)
+        serializer = PlaceVideoSerializer(placeVideos, many=True)
         return Response(serializer.data)
 
-    def post(self, request, pk, format=None):
+
+    def post(self, request, placeId, format=None):
         try:
-            place = Place.objects.get(pk=pk)
+            place = Place.objects.get(pk=placeId)
         except Place.DoesNotExist:
             raise Http404
 
-        video = Video(request.POST, request.FILES)
-        video.place = place;
-        video.creator = User(id=1)
-        serializer = VideoSerializer(data=request.DATA)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        placeVideo = PlaceVideo(video=request.FILES['video'])
+        placeVideo.creator = self.request.user
+        placeVideo.place = place
+        placeVideo.geo_latitude = 1.111
+        placeVideo.geo_longitude = 1.111
+        placeVideo.save()
+
+        serializer = PlaceVideoSerializer(placeVideo)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 class Authentication(APIView):

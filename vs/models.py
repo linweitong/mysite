@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+import time
 
 
 class Place(models.Model):
@@ -21,26 +22,28 @@ class Place(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
 
-
     def __unicode__(self):
         return self.name
 
 
-class Video(models.Model):
+class PlaceVideo(models.Model):
+    def file_path(self, filename=None):
+        return str.format('%s/%s_%s' %(self.place.id, int(time.time()), str(filename)))
+
     # video info
-    thumbnail = models.CharField(max_length=200)
-    file = models.CharField(max_length=200)
+    thumbnail = models.CharField(max_length=200, null=True)
     description = models.CharField(max_length=200)
 
     # location
-    location = models.CharField(max_length=200)
+    location = models.CharField(max_length=200, null=True)
     geo_latitude = models.FloatField()
     geo_longitude = models.FloatField()
 
-    creator = models.ForeignKey('auth.User', related_name='videos')
+    video = models.FileField(upload_to=file_path)
+    creator = models.ForeignKey('auth.User')
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
-    place = models.ForeignKey(Place, related_name='videos')
+    place = models.ForeignKey(Place)
 
 
 class Comment(models.Model):
@@ -50,16 +53,18 @@ class Comment(models.Model):
     )
     text = models.TextField(null=True)
     type = models.IntegerField(choices=COMMENT_TYPE)
-    creator = models.ForeignKey('auth.User', related_name='videos+')
+    creator = models.ForeignKey('auth.User')
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
-    comment_on = models.ForeignKey(Video)
+    comment_on = models.ForeignKey(PlaceVideo)
 
 
 class VSUser(User):
     thirdPartId = models.BigIntegerField(null=True)
     thirdPartAccessToken = models.CharField(max_length=400, null=True)
     accessToken = models.CharField(max_length=200, null=True)
+
+
 
 
 

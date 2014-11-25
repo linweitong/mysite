@@ -38,13 +38,15 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
+    'storages',
+    'boto',
     'vs',
 )
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    #'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -95,3 +97,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
 STATIC_URL = '/static/'
+
+AWS_ACCESS_KEY_ID = 'AKIAJA4DGSVSDWVFLV4Q'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'snowleaopardvideo'
+#DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+S3_URL = 'https://s3.amazonaws.com/snowleaopardvideo'
+
+

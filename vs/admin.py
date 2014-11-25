@@ -1,6 +1,5 @@
 from django.contrib import admin
-from vs.models import Place, Video, Comment
+from vs.models import Place, Comment
 
 admin.site.register(Place)
-admin.site.register(Video)
 admin.site.register(Comment)
