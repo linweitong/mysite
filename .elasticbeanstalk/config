@@ -1,6 +1,6 @@
 [global]
 ApplicationName=mysite
-#AwsCredentialFile=~/.elasticbeanstalk/aws_credential_file
+AwsCredentialFile=/Users/wlin/.elasticbeanstalk/aws_credential_file
 DevToolsEndpoint=git.elasticbeanstalk.us-east-1.amazonaws.com
 EnvironmentName=mysite-env
 EnvironmentTier=WebServer::Standard::1.0
