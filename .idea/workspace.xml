@@ -2,17 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5890444d-e58d-413c-8c25-303a1de53f3c" name="Default" comment="">
-      <change type="DELETED" beforePath="D:\workspace\mysite\1\thumbnails\1416985871_test.msi32.txt" afterPath="" />
-      <change type="DELETED" beforePath="D:\workspace\mysite\1\thumbnails\1416985942_test.msi32.txt" afterPath="" />
-      <change type="DELETED" beforePath="D:\workspace\mysite\1\thumbnails\1416986070_test.msi32.txt" afterPath="" />
-      <change type="DELETED" beforePath="D:\workspace\mysite\1\videos\1416985871_125_127.zip" afterPath="" />
-      <change type="DELETED" beforePath="D:\workspace\mysite\1\videos\1416985942_125_127.zip" afterPath="" />
-      <change type="DELETED" beforePath="D:\workspace\mysite\1\videos\1416986070_125_127.zip" afterPath="" />
-      <change type="DELETED" beforePath="D:\workspace\mysite\vs\migrations\0001_initial.py" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vs/serializers.py" afterPath="$PROJECT_DIR$/vs/serializers.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mysite/settings.py" afterPath="$PROJECT_DIR$/mysite/settings.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mysite/urls.py" afterPath="$PROJECT_DIR$/mysite/urls.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="DELETED" beforePath="D:\workspace\mysite\snowleaopardvideo\1\thumbnails\1416992342_Background-1.jpg" afterPath="" />
+      <change type="DELETED" beforePath="D:\workspace\mysite\snowleaopardvideo\1\thumbnails\1416992673_awseb-dg.pdf" afterPath="" />
+      <change type="DELETED" beforePath="D:\workspace\mysite\snowleaopardvideo\1\thumbnails\1416992774_Background-1.jpg" afterPath="" />
+      <change type="DELETED" beforePath="D:\workspace\mysite\snowleaopardvideo\1\thumbnails\1416992832_Background-1.jpg" afterPath="" />
+      <change type="DELETED" beforePath="D:\workspace\mysite\snowleaopardvideo\1\thumbnails\1416993047_Background-1.jpg" afterPath="" />
+      <change type="DELETED" beforePath="D:\workspace\mysite\snowleaopardvideo\1\thumbnails\1416993824_Background-1.jpg" afterPath="" />
+      <change type="DELETED" beforePath="D:\workspace\mysite\snowleaopardvideo\1\videos\1416992342_badge_9-568h.jpg" afterPath="" />
+      <change type="DELETED" beforePath="D:\workspace\mysite\snowleaopardvideo\1\videos\1416992673_Background-1.jpg" afterPath="" />
+      <change type="DELETED" beforePath="D:\workspace\mysite\snowleaopardvideo\1\videos\1416992774_awseb-dg.pdf" afterPath="" />
+      <change type="DELETED" beforePath="D:\workspace\mysite\snowleaopardvideo\1\videos\1416992832_awseb-dg.pdf" afterPath="" />
+      <change type="DELETED" beforePath="D:\workspace\mysite\snowleaopardvideo\1\videos\1416993047_awseb-dg.pdf" afterPath="" />
+      <change type="DELETED" beforePath="D:\workspace\mysite\snowleaopardvideo\1\videos\1416993824_badge_9-568h.jpg" afterPath="" />
     </list>
     <ignored path="mysite.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -90,8 +91,8 @@
       <file leaf-file-name="settings.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mysite/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.77117115" vertical-offset="1693" max-vertical-offset="2562">
-              <caret line="101" column="42" selection-start-line="101" selection-start-column="42" selection-end-line="101" selection-end-column="42" />
+            <state vertical-scroll-proportion="0.35495496" vertical-offset="1693" max-vertical-offset="2562">
+              <caret line="90" column="0" selection-start-line="90" selection-start-column="0" selection-end-line="90" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -492,10 +493,10 @@
     <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32944608" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33945945" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33945945" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32944608" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2528978" sideWeight="0.4987013" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2528978" sideWeight="0.4987013" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33405405" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25338647" sideWeight="0.5012987" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -941,8 +942,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mysite/settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.77117115" vertical-offset="1693" max-vertical-offset="2562">
-          <caret line="101" column="42" selection-start-line="101" selection-start-column="42" selection-end-line="101" selection-end-column="42" />
+        <state vertical-scroll-proportion="0.35495496" vertical-offset="1693" max-vertical-offset="2562">
+          <caret line="90" column="0" selection-start-line="90" selection-start-column="0" selection-end-line="90" selection-end-column="0" />
           <folding />
         </state>
       </provider>
