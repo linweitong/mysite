@@ -1,5 +1,5 @@
 from vs.models import Place, VSUser, PlaceVideo, Comment
-from vs.serializers import PlaceSerializer, PlaceVideoSerializer, VCUserSerializer, \
+from vs.serializers import PlaceSerializer, PlaceVideoSerializer, VSUserSerializer, \
     PaginatedPlaceSerializer, CommentSerializer, PaginatedCommentSerializer, PaginatedPlaceVideoSerializer
 from django.http import Http404
 from rest_framework.views import APIView
@@ -64,7 +64,17 @@ class PlaceDetail(APIView):
             raise Http404
 
     def get(self, request, pk, format=None):
-        place = self.get_object(pk)
+        if int(pk) == 0:
+            latitude = self.request.META.get('HTTP_GEO_LATITUDE', 0)
+            longitude = self.request.META.get('HTTP_GEO_LONGITUDE', 0)
+
+            query= "SELECT *, 3956 * 2 * ASIN(SQRT(POWER(SIN((%s - latitude) * 0.0174532925 / 2), 2) + COS(%s * 0.0174532925) " \
+                   "* COS(latitude * 0.0174532925) * POWER(SIN((%s - latitude) * 0.0174532925 / 2), 2) )) as distance " \
+                   "from vs_place ORDER BY distance ASC limit 1 " % ( latitude, latitude, longitude)
+            place = Place.objects.raw(query)[0]
+
+        else:
+            place = self.get_object(pk)
         serializer = PlaceSerializer(place)
         return Response(serializer.data)
 
@@ -118,8 +128,9 @@ class PlaceVideos(APIView):
         placeVideo = PlaceVideo(video=request.FILES['video'], thumbnail=request.FILES['thumbnail'])
         placeVideo.creator = self.request.user
         placeVideo.place = place
-        placeVideo.geo_latitude = 1.111
-        placeVideo.geo_longitude = 1.111
+        placeVideo.location = place.location
+        placeVideo.latitude =self.request.META['HTTP_GEO_LATITUDE']
+        placeVideo.longitude =self.request.META['HTTP_GEO_LONGITUDE']
         placeVideo.save()
 
         serializer = PlaceVideoSerializer(placeVideo)
@@ -174,20 +185,18 @@ class VideoComments(APIView):
 class Authentication(APIView):
     def post(self, request, format=None):
         data = request.DATA
-        facebookId = data["facebookId"];
-        facebookAccessToken = data["accessToken"];
-        # facebookId = 669448512
-        # facebookAccessToken = 'CAACEdEose0cBAOyACcZCysfqBoouudRGoGDFYg7HUpQQIMhymwppfpr03mzcN0UOdazGGvuDQtIvoowJnim4Rh6I7ZAk7UgZB6hmoaJsKQcC42czJQTdZCPBZBE661zFYvo1sZCDobpgfvRGH6xML2GeySKFcFppfQFRW1aRnqfpAjFGy0ZC2oPry62gDgkOSL4PFMOxeJ2B4ZC8BDkZCgRFj'
-        # graphURL =str.format('https://graph.facebook.com/v2.2/%s?access_token=%s' %(facebookId, facebookAccessToken))
-        # response = urlopen(graphURL).read()
-        # userInfo =json.loads(response)
-        # email = userInfo["email"]
-        # first_name = userInfo["first_name"]
-        # last_name = userInfo["last_name"]
-        # name = userInfo["name"]
-        # profile_image =str.format('//graph.facebook.com/%s/picture?type=large' % (facebookId))
+        facebookId = long(data["facebookId"])
+        facebookAccessToken = str(data["accessToken"])
 
         # call facebook graph api to verify token
+        graphURL =str.format('https://graph.facebook.com/v2.2/%s?access_token=%s' %(facebookId, facebookAccessToken))
+        response = urlopen(graphURL).read()
+        userInfo =json.loads(response)
+        email = userInfo["email"]
+        firstName = userInfo["first_name"]
+        lastName = userInfo["last_name"]
+        name = userInfo["name"]
+        profileImage =str.format('//graph.facebook.com/%s/picture?type=large' % (facebookId))
 
         try:
             vsUser = VSUser.objects.get(thirdPartId=facebookId)
@@ -195,8 +204,9 @@ class Authentication(APIView):
             # Create a new user. Note that we can set password
             # to anything, because it won't be checked; the password
             # from settings.py will.
-            vsUser = VSUser(username="linweitong" + facebookId, thirdPartId=facebookId, thirdPartAccessToken=facebookAccessToken)
-            vsUser.save();
+            vsUser = VSUser(username=facebookId, thirdPartId=facebookId, thirdPartAccessToken=facebookAccessToken,
+                            email=email,name= name, firstName=firstName, lastName=lastName, profileImage=profileImage)
+            vsUser.save()
 
         token, created = Token.objects.get_or_create(user=vsUser)
         #refresh token if exist
@@ -206,7 +216,7 @@ class Authentication(APIView):
             token.save()
         vsUser.accessToken = token.key
         vsUser.save()
-        serializer = VCUserSerializer(vsUser)
+        serializer = VSUserSerializer(vsUser)
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 

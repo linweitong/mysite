@@ -11,14 +11,26 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ('id', 'username')
 
 
+class VSUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = VSUser
+        fields = ('id', 'name', 'firstName', 'lastName', 'profileImage','email', 'accessToken',)
+
+class VSBasicUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = VSUser
+        fields = ('id', 'name', 'firstName', 'lastName', 'profileImage','email',)
+
+
 class PlaceSerializer(serializers.ModelSerializer):
     type = serializers.Field(source=False)
-    creator = UserSerializer(read_only=True)
+    creator = VSBasicUserSerializer(read_only=True)
+    additionInfo = serializers.CharField(required=False, allow_none=True)
 
     class Meta:
         model = Place
-        fields = ('id', 'name', 'description', 'type', 'location', 'geo_latitude',
-                  'geo_longitude', 'addition_info', 'creator', 'created_date', 'updated_date')
+        fields = ('id', 'name', 'description', 'type', 'location', 'latitude',
+                  'longitude', 'additionInfo', 'creator', 'createdDate', 'updatedDate')
 
 
 class PaginatedPlaceSerializer(PaginationSerializer):
@@ -30,20 +42,20 @@ class PaginatedPlaceSerializer(PaginationSerializer):
 
 
 class PlaceVideoSerializer(serializers.ModelSerializer):
-    video_url = serializers.SerializerMethodField('get_video_url')
-    thumbnail_url = serializers.SerializerMethodField('get_thumbnail_url')
-    creator = UserSerializer(read_only=True)
+    videoUrl = serializers.SerializerMethodField('getVideoUrl')
+    thumbnailUrl = serializers.SerializerMethodField('getThumbnailUrl')
+    creator = VSBasicUserSerializer(read_only=True)
 
-    def get_video_url(self, obj):
+    def getVideoUrl(self, obj):
         return settings.MEDIA_BASE_URL + obj.video.url
 
-    def get_thumbnail_url(self, obj):
+    def getThumbnailUrl(self, obj):
         return settings.MEDIA_BASE_URL + obj.thumbnail.url
 
     class Meta:
         model = PlaceVideo
-        fields = ('id', 'thumbnail_url', 'video_url', 'creator', 'location', 'geo_latitude', 'geo_longitude',
-                  'created_date', 'updated_date')
+        fields = ('id', 'thumbnailUrl', 'videoUrl', 'creator', 'location', 'latitude', 'longitude',
+                  'createdDate', 'updatedDate')
 
 class PaginatedPlaceVideoSerializer(PaginationSerializer):
     """
@@ -54,20 +66,14 @@ class PaginatedPlaceVideoSerializer(PaginationSerializer):
 
 
 
-class VCUserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = VSUser
-        fields = ('id', 'username', 'accessToken')
 
 class CommentSerializer(serializers.ModelSerializer):
     type = serializers.Field(source=False)
-    creator = UserSerializer(read_only=True)
-    video = PlaceVideoSerializer(read_only=True)
+    creator = VSBasicUserSerializer(read_only=True)
 
     class Meta:
         model = Comment
-        fields = ('id', 'text', 'type', 'creator', 'created_date','updated_date','video')
-
+        fields = ('id', 'text', 'type', 'creator', 'createdDate','updatedDate')
 
 class PaginatedCommentSerializer(PaginationSerializer):
     """

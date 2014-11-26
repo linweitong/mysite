@@ -3,6 +3,15 @@ from django.contrib.auth.models import User
 import time
 
 
+class VSUser(User):
+    thirdPartId = models.BigIntegerField(null=True)
+    thirdPartAccessToken = models.CharField(max_length=400, null=True)
+    accessToken = models.CharField(max_length=200, null=True)
+    firstName = models.CharField(max_length=200, null=True)
+    lastName = models.CharField(max_length=200, null=True)
+    name = models.CharField(max_length=200, null=True)
+    profileImage = models.CharField(max_length=200, null=True)
+
 class Place(models.Model):
     PLACE_TYPE = (
         (1, 'Club'),
@@ -14,13 +23,13 @@ class Place(models.Model):
     type = models.IntegerField(choices=PLACE_TYPE)
     # location
     location = models.CharField(max_length=200)
-    geo_latitude = models.FloatField()
-    geo_longitude = models.FloatField()
+    latitude = models.FloatField()
+    longitude = models.FloatField()
     # Json to store additional info
-    addition_info = models.TextField(null=True)
-    creator = models.ForeignKey('auth.User')
-    created_date = models.DateTimeField(auto_now_add=True)
-    updated_date = models.DateTimeField(auto_now=True)
+    additionInfo = models.TextField(null=True, blank=True)
+    creator = models.ForeignKey(VSUser)
+    createdDate = models.DateTimeField(auto_now_add=True)
+    updatedDate = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
         return self.name
@@ -40,13 +49,13 @@ class PlaceVideo(models.Model):
 
     # location
     location = models.CharField(max_length=200, null=True)
-    geo_latitude = models.FloatField()
-    geo_longitude = models.FloatField()
+    latitude = models.FloatField()
+    longitude = models.FloatField()
 
     video = models.FileField(upload_to=video_path)
-    creator = models.ForeignKey('auth.User')
-    created_date = models.DateTimeField(auto_now_add=True)
-    updated_date = models.DateTimeField(auto_now=True)
+    creator = models.ForeignKey(VSUser)
+    createdDate = models.DateTimeField(auto_now_add=True)
+    updatedDate = models.DateTimeField(auto_now=True)
     place = models.ForeignKey(Place)
 
 
@@ -57,16 +66,13 @@ class Comment(models.Model):
     )
     text = models.TextField(null=True)
     type = models.IntegerField(choices=COMMENT_TYPE)
-    creator = models.ForeignKey('auth.User')
-    created_date = models.DateTimeField(auto_now_add=True)
-    updated_date = models.DateTimeField(auto_now=True)
+    creator = models.ForeignKey(VSUser)
+    createdDate = models.DateTimeField(auto_now_add=True)
+    updatedDate = models.DateTimeField(auto_now=True)
     video = models.ForeignKey(PlaceVideo)
 
 
-class VSUser(User):
-    thirdPartId = models.BigIntegerField(null=True)
-    thirdPartAccessToken = models.CharField(max_length=400, null=True)
-    accessToken = models.CharField(max_length=200, null=True)
+
 
 
 
