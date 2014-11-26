@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5890444d-e58d-413c-8c25-303a1de53f3c" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.ebextensions/mysite.config" afterPath="$PROJECT_DIR$/.ebextensions/mysite.config" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/requirements.txt" afterPath="$PROJECT_DIR$/requirements.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.elasticbeanstalk/optionsettings.mysite-env" afterPath="$PROJECT_DIR$/.elasticbeanstalk/optionsettings.mysite-env" />
     </list>
     <ignored path="mysite.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -69,11 +68,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="optionsettings.mysite-env" pinned="false" current-in-tab="false">
+      <file leaf-file-name="optionsettings.mysite-env" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/.elasticbeanstalk/optionsettings.mysite-env">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="456" max-vertical-offset="885">
-              <caret line="22" column="7" selection-start-line="22" selection-start-column="7" selection-end-line="22" selection-end-column="7" />
+            <state vertical-scroll-proportion="0.58588237" vertical-offset="216" max-vertical-offset="885">
+              <caret line="31" column="23" selection-start-line="31" selection-start-column="23" selection-end-line="31" selection-end-column="23" />
               <folding />
             </state>
           </provider>
@@ -89,11 +88,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="mysite.config" pinned="false" current-in-tab="true">
+      <file leaf-file-name="mysite.config" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.ebextensions/mysite.config">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.03529412" vertical-offset="0" max-vertical-offset="425">
-              <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="3" selection-end-column="21" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="240">
+              <caret line="8" column="11" selection-start-line="8" selection-start-column="11" selection-end-line="8" selection-end-column="25" />
               <folding />
             </state>
           </provider>
@@ -147,12 +146,13 @@
         <option value="$PROJECT_DIR$/mysite/settings.py" />
         <option value="$PROJECT_DIR$/requirements.txt" />
         <option value="$PROJECT_DIR$/.ebextensions/mysite.config" />
+        <option value="$PROJECT_DIR$/.elasticbeanstalk/optionsettings.mysite-env" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="112" />
-    <option name="y" value="389" />
+    <option name="x" value="55" />
+    <option name="y" value="230" />
     <option name="width" value="1276" />
     <option name="height" value="778" />
   </component>
@@ -478,7 +478,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="112" y="389" width="1276" height="778" extended-state="0" />
+    <frame x="55" y="230" width="1276" height="778" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32944608" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -893,14 +893,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.elasticbeanstalk/optionsettings.mysite-env">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="456" max-vertical-offset="885">
-          <caret line="22" column="7" selection-start-line="22" selection-start-column="7" selection-end-line="22" selection-end-column="7" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.elasticbeanstalk/config">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="330">
@@ -935,8 +927,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.ebextensions/mysite.config">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.03529412" vertical-offset="0" max-vertical-offset="425">
-          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="3" selection-end-column="21" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="240">
+          <caret line="8" column="11" selection-start-line="8" selection-start-column="11" selection-end-line="8" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.elasticbeanstalk/optionsettings.mysite-env">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.58588237" vertical-offset="216" max-vertical-offset="885">
+          <caret line="31" column="23" selection-start-line="31" selection-start-column="23" selection-end-line="31" selection-end-column="23" />
           <folding />
         </state>
       </provider>
