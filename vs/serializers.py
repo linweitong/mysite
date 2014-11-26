@@ -3,6 +3,7 @@ from vs.models import Place, Comment, VSUser, PlaceVideo
 from django.contrib.auth.models import User
 from rest_framework.pagination import PaginationSerializer
 from django.conf import settings
+from rest_framework.request import Request
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -47,10 +48,16 @@ class PlaceVideoSerializer(serializers.ModelSerializer):
     creator = VSBasicUserSerializer(read_only=True)
 
     def getVideoUrl(self, obj):
-        return settings.MEDIA_BASE_URL + obj.video.url
+        if settings.USE_AWS:
+            return obj.video.url
+        else:
+            return settings.MEDIA_BASE_URL + obj.video.url
 
     def getThumbnailUrl(self, obj):
-        return settings.MEDIA_BASE_URL + obj.thumbnail.url
+        if settings.USE_AWS:
+            return obj.thumbnail.url
+        else:
+            return settings.MEDIA_BASE_URL + obj.thumbnail.url
 
     class Meta:
         model = PlaceVideo

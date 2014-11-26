@@ -99,12 +99,18 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-AWS_ACCESS_KEY_ID = 'AKIAJA4DGSVSDWVFLV4Q'
-AWS_SECRET_ACCESS_KEY = '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'
-AWS_STORAGE_BUCKET_NAME = 'snowleaopardvideo'
-#DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
-MEDIA_BASE_URL = 'https://s3.amazonaws.com/snowleaopardvideo/'
+USE_AWS = os.environ.get('USE_AWS', False)
 
+if USE_AWS:
+    AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
+    AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
+    AWS_STORAGE_BUCKET_NAME = 'snowleaopardvideo'
+    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+    AWS_QUERYSTRING_AUTH = False
+else:
+    MEDIA_BASE_URL = 'http://127.0.0.1:8000'
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'snowleaopardvideo')
+    MEDIA_URL = '/snowleaopardvideo/'
 
 PAGE_NUM = 2
 

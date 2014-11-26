@@ -36,7 +36,7 @@ class Migration(migrations.Migration):
                 ('location', models.CharField(max_length=200)),
                 ('latitude', models.FloatField()),
                 ('longitude', models.FloatField()),
-                ('additionInfo', models.TextField(null=True)),
+                ('additionInfo', models.TextField(null=True, blank=True)),
                 ('createdDate', models.DateTimeField(auto_now_add=True)),
                 ('updatedDate', models.DateTimeField(auto_now=True)),
             ],
