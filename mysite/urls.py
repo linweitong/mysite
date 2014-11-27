@@ -5,7 +5,7 @@ from django.conf.urls.static import static
 
 urlpatterns = patterns('',
     # Examples:
-    url(r'^$', 'mysite.views.home', name='home'),
+    url(r'^$', 'mysite.views.home'),
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^vs/', include('vs.urls')),
