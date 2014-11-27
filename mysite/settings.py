@@ -61,12 +61,6 @@ REST_FRAMEWORK = {
     )
 }
 
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-    }
-}
-
 ROOT_URLCONF = 'mysite.urls'
 
 WSGI_APPLICATION = 'mysite.wsgi.application'
@@ -108,8 +102,8 @@ STATIC_URL = '/static/'
 USE_AWS = os.environ.get('USE_AWS', False)
 
 if USE_AWS:
-    AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
-    AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
+    AWS_ACCESS_KEY_ID = os.environ['AWS_S3_ACCESS_KEY_ID']
+    AWS_SECRET_ACCESS_KEY = os.environ['AWS_S3_SECRET_ACCESS_KEY']
     AWS_STORAGE_BUCKET_NAME = 'snowleaopardvideo'
     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
     AWS_QUERYSTRING_AUTH = False
