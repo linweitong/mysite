@@ -5,7 +5,7 @@ from django.conf.urls.static import static
 
 urlpatterns = patterns('',
     # Examples:
-    # url(r'^$', 'mysite.views.home', name='home'),
+    url(r'^$', 'mysite.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^vs/', include('vs.urls')),
@@ -14,3 +14,8 @@ urlpatterns = patterns('',
 
 if not settings.USE_AWS:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+if settings.DEBUG:
+    urlpatterns += patterns('django.contrib.staticfiles.views',
+        url(r'^static/(?P<path>.*)$', 'serve'),
+    )

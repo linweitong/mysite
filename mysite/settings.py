@@ -99,6 +99,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
 USE_AWS = os.environ.get('USE_AWS', False)
 
 if USE_AWS:
