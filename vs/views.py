@@ -65,8 +65,8 @@ class PlaceDetail(APIView):
 
     def get(self, request, pk, format=None):
         if int(pk) == 0:
-            latitude = self.request.META.get('HTTP_GEO_LATITUDE', 0)
-            longitude = self.request.META.get('HTTP_GEO_LONGITUDE', 0)
+            latitude = self.request.META.get('HTTP_GEOLATITUDE', 0)
+            longitude = self.request.META.get('HTTP_GEOLONGITUDE', 0)
 
             query= "SELECT *, 3956 * 2 * ASIN(SQRT(POWER(SIN((%s - latitude) * 0.0174532925 / 2), 2) + COS(%s * 0.0174532925) " \
                    "* COS(latitude * 0.0174532925) * POWER(SIN((%s - latitude) * 0.0174532925 / 2), 2) )) as distance " \
@@ -129,8 +129,8 @@ class PlaceVideos(APIView):
         placeVideo.creator = self.request.user
         placeVideo.place = place
         placeVideo.location = place.location
-        placeVideo.latitude =self.request.META['HTTP_GEO_LATITUDE']
-        placeVideo.longitude =self.request.META['HTTP_GEO_LONGITUDE']
+        placeVideo.latitude =self.request.META['HTTP_GEOLATITUDE']
+        placeVideo.longitude =self.request.META['HTTP_GEOLONGITUDE']
         placeVideo.save()
 
         serializer = PlaceVideoSerializer(placeVideo)
