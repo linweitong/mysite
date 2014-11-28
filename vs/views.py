@@ -192,10 +192,10 @@ class Authentication(APIView):
         graphURL =str.format('https://graph.facebook.com/v2.2/%s?access_token=%s' %(facebookId, facebookAccessToken))
         response = urlopen(graphURL).read()
         userInfo =json.loads(response)
-        email = userInfo["email"]
-        firstName = userInfo["first_name"]
-        lastName = userInfo["last_name"]
-        name = userInfo["name"]
+        email = userInfo.get('email', '')
+        firstName = userInfo.get('first_name', '')
+        lastName = userInfo.get('last_name', '')
+        name = userInfo.get('name', '')
         profileImage =str.format('//graph.facebook.com/%s/picture?type=large' % (facebookId))
 
         try:
