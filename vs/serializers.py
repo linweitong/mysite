@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 from rest_framework.pagination import PaginationSerializer
 from django.conf import settings
 from rest_framework.request import Request
+import datetime
+import calendar
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -46,12 +48,15 @@ class PlaceVideoSerializer(serializers.ModelSerializer):
     videoUrl = serializers.SerializerMethodField('getVideoUrl')
     thumbnailUrl = serializers.SerializerMethodField('getThumbnailUrl')
     creator = VSBasicUserSerializer(read_only=True)
+    createTimeStamp = serializers.SerializerMethodField('getCreateTimeStamp')
 
     def getVideoUrl(self, obj):
         if settings.USE_AWS:
             return obj.video.url
         else:
             return settings.MEDIA_BASE_URL + obj.video.url
+    def getCreateTimeStamp(self, obj):
+        return calendar.timegm(obj.createdDate.timetuple())
 
     def getThumbnailUrl(self, obj):
         if settings.USE_AWS:
@@ -62,7 +67,7 @@ class PlaceVideoSerializer(serializers.ModelSerializer):
     class Meta:
         model = PlaceVideo
         fields = ('id', 'thumbnailUrl', 'videoUrl', 'creator', 'location', 'latitude', 'longitude',
-                  'createdDate', 'updatedDate')
+                  'createdDate', 'updatedDate', 'createTimeStamp')
 
 class PaginatedPlaceVideoSerializer(PaginationSerializer):
     """

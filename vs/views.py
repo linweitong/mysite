@@ -138,6 +138,24 @@ class PlaceVideos(APIView):
 
 
 
+class PlaceVideoDetail(APIView):
+    def get(self, request, pk, format=None):
+        try:
+            placeVideo = PlaceVideo.objects.get(pk=pk)
+        except PlaceVideo.DoesNotExist:
+            raise Http404
+        serializer = PlaceVideoSerializer(placeVideo)
+        return Response(serializer.data)
+
+    def delete(self, request, pk, format=None):
+        try:
+            placeVideo = PlaceVideo.objects.get(pk=pk)
+        except PlaceVideo.DoesNotExist:
+            raise Http404
+        placeVideo.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
 class VideoComments(APIView):
     # def get(self, request, videoId, format=None):
     #     comments = Comment.objects.filter(video_id=videoId)

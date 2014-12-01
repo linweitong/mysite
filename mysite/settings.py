@@ -114,5 +114,5 @@ else:
     MEDIA_ROOT = os.path.join(BASE_DIR, 'snowleaopardvideo')
     MEDIA_URL = '/snowleaopardvideo/'
 
-PAGE_NUM = 2
+PAGE_NUM = 10
 

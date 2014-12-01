@@ -1,3 +1,5 @@
 .elasticbeanstalk/
 *.pyc
-.idea/
+.idea/
+snowleaopardvideo/
+
