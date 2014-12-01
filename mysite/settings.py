@@ -58,7 +58,8 @@ REST_FRAMEWORK = {
         #'rest_framework.authentication.TokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
         'vs.authentication.TokenAuthentication',
-    )
+    ),
+    'EXCEPTION_HANDLER': 'vs.exception.custom_exception_handler'
 }
 
 ROOT_URLCONF = 'mysite.urls'
