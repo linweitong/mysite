@@ -9,6 +9,7 @@ urlpatterns = patterns('',
     url(r'^videos/(?P<pk>[0-9]+)/$', views.PlaceVideoDetail.as_view()),
     url(r'^videos/(?P<videoId>[0-9]+)/comments/$', views.VideoComments.as_view()),
     url(r'^auth/', views.Authentication.as_view()),
+    url(r'^users/(?P<pk>[0-9]+)/', views.UserDetail.as_view()),
     )
 
 urlpatterns = format_suffix_patterns(urlpatterns)

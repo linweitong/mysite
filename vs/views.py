@@ -1,6 +1,7 @@
 from vs.models import Place, VSUser, PlaceVideo, Comment
 from vs.serializers import PlaceSerializer, PlaceVideoSerializer, VSUserSerializer, \
-    PaginatedPlaceSerializer, CommentSerializer, PaginatedCommentSerializer, PaginatedPlaceVideoSerializer
+    PaginatedPlaceSerializer, CommentSerializer, PaginatedCommentSerializer, PaginatedPlaceVideoSerializer, \
+    VSUserVideoSerializer
 from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -237,4 +238,14 @@ class Authentication(APIView):
         serializer = VSUserSerializer(vsUser)
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+class UserDetail(APIView):
+    def get(self, request, pk, format=None):
+        try:
+            vsUser = VSUser.objects.get(pk=pk)
+        except PlaceVideo.DoesNotExist:
+            raise Http404
+        serializer = VSUserVideoSerializer(vsUser)
+        return Response(serializer.data)
+
 

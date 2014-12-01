@@ -19,6 +19,7 @@ class VSUserSerializer(serializers.ModelSerializer):
         model = VSUser
         fields = ('id', 'name', 'firstName', 'lastName', 'profileImage','email', 'accessToken',)
 
+
 class VSBasicUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = VSUser
@@ -94,3 +95,11 @@ class PaginatedCommentSerializer(PaginationSerializer):
     class Meta:
         object_serializer_class = CommentSerializer
 
+
+class VSUserVideoSerializer(serializers.ModelSerializer):
+    placevideo_set = PlaceVideoSerializer(many=True)
+    def getUserVideos(self, obj):
+        return obj.placevideo_set.all()
+    class Meta:
+        model = VSUser
+        fields = ('id', 'name', 'firstName', 'lastName', 'profileImage','email', 'placevideo_set')
