@@ -30,7 +30,7 @@ class PlaceSerializer(serializers.ModelSerializer):
     type = serializers.Field(source=False)
     creator = VSBasicUserSerializer(read_only=True)
     additionInfo = serializers.CharField(required=False, allow_none=True)
-    distance = serializers.Field(source=False)
+    distance = serializers.FloatField(source=False, read_only=True)
 
     class Meta:
         model = Place
@@ -51,6 +51,7 @@ class PlaceVideoSerializer(serializers.ModelSerializer):
     thumbnailUrl = serializers.SerializerMethodField('getThumbnailUrl')
     creator = VSBasicUserSerializer(read_only=True)
     createTimeStamp = serializers.SerializerMethodField('getCreateTimeStamp')
+    viewCount = serializers.IntegerField(source=False,read_only=True )
 
     def getVideoUrl(self, obj):
         if settings.USE_AWS:
@@ -69,7 +70,8 @@ class PlaceVideoSerializer(serializers.ModelSerializer):
     class Meta:
         model = PlaceVideo
         fields = ('id', 'thumbnailUrl', 'videoUrl', 'creator', 'location', 'latitude', 'longitude',
-                  'createdDate', 'updatedDate', 'createTimeStamp')
+                  'createdDate', 'updatedDate', 'createTimeStamp', 'viewCount')
+
 
 class PaginatedPlaceVideoSerializer(PaginationSerializer):
     """
@@ -82,7 +84,7 @@ class PaginatedPlaceVideoSerializer(PaginationSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
-    type = serializers.Field(source=False)
+    text = serializers.Field(source=False)
     creator = VSBasicUserSerializer(read_only=True)
 
     class Meta:

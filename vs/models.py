@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from manager import LocationManager
+from manager import LocationManager, PlaceVideoManager
 import time
 
 
@@ -18,8 +18,7 @@ class Place(models.Model):
         (1, 'Club'),
         (2, 'Coffee')
     )
-
-    objects2 = LocationManager()
+    objects = LocationManager()
     name = models.CharField(max_length=200)
     description = models.TextField()
     type = models.IntegerField(choices=PLACE_TYPE)
@@ -44,6 +43,7 @@ def video_path(self, filename=None):
     return str.format('%s/videos/%s_%s' %(self.place.id, int(time.time()), str(filename)))
 
 class PlaceVideo(models.Model):
+    objects = PlaceVideoManager()
 
     # video info
     thumbnail = models.FileField(upload_to=thumbnail_path)
@@ -64,7 +64,8 @@ class PlaceVideo(models.Model):
 class Comment(models.Model):
     COMMENT_TYPE = (
         (1, 'like'),
-        (2, 'comments')
+        (2, 'comments'),
+        (3, 'view')
     )
     text = models.TextField(null=True)
     type = models.IntegerField(choices=COMMENT_TYPE)
@@ -72,6 +73,8 @@ class Comment(models.Model):
     createdDate = models.DateTimeField(auto_now_add=True)
     updatedDate = models.DateTimeField(auto_now=True)
     video = models.ForeignKey(PlaceVideo)
+
+
 
 
 

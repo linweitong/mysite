@@ -1,6 +1,7 @@
 from django.db import models
 
 class LocationManager(models.Manager):
+
     def byDistance(self, latitude, longitude):
         """
         Return all object which distance to specified coordinates
@@ -25,4 +26,15 @@ class LocationManager(models.Manager):
                        #params=[latitude, longitude, latitude, proximity],
                        #params=[latitude, longitude, latitude],
                        order_by=['distance']
+                   )
+
+
+class PlaceVideoManager(models.Manager):
+    def with_counts(self):
+        selectViewCount = """
+              SELECT COUNT(*) FROM vs_comment WHERE vs_comment.video_id = vs_placevideo.id and vs_comment.type = 3
+              """
+        return self.get_queryset()\
+                   .extra(
+                    select={'viewCount':selectViewCount }
                    )

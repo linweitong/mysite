@@ -30,7 +30,7 @@ class PlaceList(APIView):
         #sort places by distance
         latitude = self.request.META.get('HTTP_GEOLATITUDE', 0)
         longitude = self.request.META.get('HTTP_GEOLONGITUDE', 0)
-        places = Place.objects2.byDistance(latitude,longitude)
+        places = Place.objects.byDistance(latitude,longitude)
 
         paginator = Paginator(places, numPerPage)
         page = request.QUERY_PARAMS.get('page')
@@ -56,6 +56,7 @@ class PlaceList(APIView):
             serializer.object.type = 1
             serializer.object.creator = self.request.user
             serializer.save()
+            serializer.object.distance = 0
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -67,7 +68,10 @@ class PlaceDetail(APIView):
 
     def get_object(self, pk):
         try:
-            return Place.objects.get(pk=pk)
+            latitude = self.request.META.get('HTTP_GEOLATITUDE', 0)
+            longitude = self.request.META.get('HTTP_GEOLONGITUDE', 0)
+            return Place.objects.byDistance(latitude,longitude).get(pk=pk)
+
         except Place.DoesNotExist:
             raise Http404
 
@@ -75,12 +79,7 @@ class PlaceDetail(APIView):
         if int(pk) == 0:
             latitude = self.request.META.get('HTTP_GEOLATITUDE', 0)
             longitude = self.request.META.get('HTTP_GEOLONGITUDE', 0)
-
-            query= "SELECT *, 3956 * 2 * ASIN(SQRT(POWER(SIN((%s - latitude) * 0.0174532925 / 2), 2) + COS(%s * 0.0174532925) " \
-                   "* COS(latitude * 0.0174532925) * POWER(SIN((%s - latitude) * 0.0174532925 / 2), 2) )) as distance " \
-                   "from vs_place ORDER BY distance ASC limit 1 " % ( latitude, latitude, longitude)
-            place = Place.objects.raw(query)[0]
-
+            place = Place.objects.byDistance(latitude,longitude)[0]
         else:
             place = self.get_object(pk)
         serializer = PlaceSerializer(place)
@@ -108,7 +107,8 @@ class PlaceVideos(APIView):
 
     def get(self, request, placeId, format=None):
         numPerPage = settings.PAGE_NUM
-        placeVideos = PlaceVideo.objects.filter(place_id=placeId)
+        #placeVideos = PlaceVideo.objects.filter(place_id=placeId)
+        placeVideos = PlaceVideo.objects.with_counts().filter(place_id=placeId)
         paginator = Paginator(placeVideos, numPerPage)
         page = request.QUERY_PARAMS.get('page')
         try:
@@ -140,7 +140,7 @@ class PlaceVideos(APIView):
         placeVideo.latitude =self.request.META['HTTP_GEOLATITUDE']
         placeVideo.longitude =self.request.META['HTTP_GEOLONGITUDE']
         placeVideo.save()
-
+        placeVideo.viewCount = 0
         serializer = PlaceVideoSerializer(placeVideo)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
@@ -149,7 +149,7 @@ class PlaceVideos(APIView):
 class PlaceVideoDetail(APIView):
     def get(self, request, pk, format=None):
         try:
-            placeVideo = PlaceVideo.objects.get(pk=pk)
+            placeVideo = PlaceVideo.objects.with_counts().get(pk=pk)
         except PlaceVideo.DoesNotExist:
             raise Http404
         serializer = PlaceVideoSerializer(placeVideo)
@@ -199,7 +199,7 @@ class VideoComments(APIView):
 
         serializer = CommentSerializer(data=request.DATA)
         if serializer.is_valid():
-            serializer.object.type = 2 #1:like 2:comment
+            #serializer.object.type = 2 #1:like 2:comment
             serializer.object.creator = self.request.user
             serializer.object.video = placeVideo
             serializer.save()
