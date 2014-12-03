@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from manager import LocationManager
 import time
 
 
@@ -18,6 +19,7 @@ class Place(models.Model):
         (2, 'Coffee')
     )
 
+    objects2 = LocationManager()
     name = models.CharField(max_length=200)
     description = models.TextField()
     type = models.IntegerField(choices=PLACE_TYPE)

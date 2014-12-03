@@ -9,7 +9,7 @@ from rest_framework import status
 from rest_framework.authtoken.models import Token
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from urllib2 import urlopen
-import json, time
+import json
 from django.conf import settings
 
 class PlaceList(APIView):
@@ -24,7 +24,14 @@ class PlaceList(APIView):
 
     def get(self, request, format=None):
         numPerPage = settings.PAGE_NUM
-        places = Place.objects.all()
+
+        #places = Place.objects.all()
+
+        #sort places by distance
+        latitude = self.request.META.get('HTTP_GEOLATITUDE', 0)
+        longitude = self.request.META.get('HTTP_GEOLONGITUDE', 0)
+        places = Place.objects2.byDistance(latitude,longitude)
+
         paginator = Paginator(places, numPerPage)
         page = request.QUERY_PARAMS.get('page')
         try:

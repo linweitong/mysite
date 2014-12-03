@@ -30,11 +30,12 @@ class PlaceSerializer(serializers.ModelSerializer):
     type = serializers.Field(source=False)
     creator = VSBasicUserSerializer(read_only=True)
     additionInfo = serializers.CharField(required=False, allow_none=True)
+    distance = serializers.Field(source=False)
 
     class Meta:
         model = Place
         fields = ('id', 'name', 'description', 'type', 'location', 'latitude',
-                  'longitude', 'additionInfo', 'creator', 'createdDate', 'updatedDate')
+                  'longitude', 'additionInfo', 'creator', 'createdDate', 'updatedDate', 'distance')
 
 
 class PaginatedPlaceSerializer(PaginationSerializer):
