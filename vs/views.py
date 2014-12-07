@@ -252,6 +252,7 @@ class UserDetail(APIView):
             vsUser = VSUser.objects.get(pk=pk)
         except PlaceVideo.DoesNotExist:
             raise Http404
+        vsUser.videos = PlaceVideo.objects.with_counts().filter(creator_id=vsUser.id)
         serializer = VSUserVideoSerializer(vsUser)
         return Response(serializer.data)
 

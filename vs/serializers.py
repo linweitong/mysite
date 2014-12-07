@@ -100,9 +100,8 @@ class PaginatedCommentSerializer(PaginationSerializer):
 
 
 class VSUserVideoSerializer(serializers.ModelSerializer):
-    placevideo_set = PlaceVideoSerializer(many=True)
-    def getUserVideos(self, obj):
-        return obj.placevideo_set.all()
+    videos = PlaceVideoSerializer(many=True)
+
     class Meta:
         model = VSUser
-        fields = ('id', 'name', 'firstName', 'lastName', 'profileImage','email', 'placevideo_set')
+        fields = ('id', 'name', 'firstName', 'lastName', 'profileImage','email', 'videos')
