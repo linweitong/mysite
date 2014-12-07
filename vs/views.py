@@ -222,7 +222,7 @@ class Authentication(APIView):
         firstName = userInfo.get('first_name', '')
         lastName = userInfo.get('last_name', '')
         name = userInfo.get('name', '')
-        profileImage =str.format('//graph.facebook.com/%s/picture?type=large' % (facebookId))
+        profileImage =str.format('https//graph.facebook.com/%s/picture?type=large' % (facebookId))
 
         try:
             vsUser = VSUser.objects.get(thirdPartId=facebookId)
