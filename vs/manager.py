@@ -55,4 +55,4 @@ class PlaceVideoManager(models.Manager):
         return self.get_queryset()\
                    .extra(
                     select={'viewCount':selectViewCount }
-                   )
+                   ).order_by('-updatedDate')
