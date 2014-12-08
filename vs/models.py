@@ -58,7 +58,7 @@ class PlaceVideo(models.Model):
     creator = models.ForeignKey(VSUser)
     createdDate = models.DateTimeField(auto_now_add=True)
     updatedDate = models.DateTimeField(auto_now=True)
-    place = models.ForeignKey(Place)
+    place = models.ForeignKey(Place, related_name="placeVideos")
 
 
 class Comment(models.Model):

@@ -11,6 +11,7 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from urllib2 import urlopen
 import json
 from django.conf import settings
+from django.db.models import Count
 
 class PlaceList(APIView):
     """
@@ -30,7 +31,10 @@ class PlaceList(APIView):
         #sort places by distance
         latitude = self.request.META.get('HTTP_GEOLATITUDE', 0)
         longitude = self.request.META.get('HTTP_GEOLONGITUDE', 0)
-        places = Place.objects.byDistance(latitude,longitude)
+
+        excludeNoVideo = bool(request.QUERY_PARAMS.get('excludeNoVideo'))
+
+        places = Place.objects.byDistance(latitude,longitude, excludeNoVideo)
 
         paginator = Paginator(places, numPerPage)
         page = request.QUERY_PARAMS.get('page')
