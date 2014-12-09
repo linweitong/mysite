@@ -32,9 +32,9 @@ class PlaceList(APIView):
         latitude = self.request.META.get('HTTP_GEOLATITUDE', 0)
         longitude = self.request.META.get('HTTP_GEOLONGITUDE', 0)
 
-        excludeNoVideo = bool(request.QUERY_PARAMS.get('excludeNoVideo'))
+        #excludeNoVideo = bool(request.QUERY_PARAMS.get('excludeNoVideo'))
 
-        places = Place.objects.byDistance(latitude,longitude, excludeNoVideo)
+        places = Place.objects.byDistance(latitude,longitude, True)
 
         paginator = Paginator(places, numPerPage)
         page = request.QUERY_PARAMS.get('page')
