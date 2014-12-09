@@ -69,7 +69,7 @@ class PlaceVideoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PlaceVideo
-        fields = ('id', 'thumbnailUrl', 'videoUrl', 'creator', 'location', 'latitude', 'longitude',
+        fields = ('id', 'thumbnailUrl', 'videoUrl', 'description', 'creator', 'location', 'latitude', 'longitude',
                   'createdDate', 'updatedDate', 'createTimeStamp', 'viewCount')
 
 
