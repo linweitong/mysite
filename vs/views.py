@@ -138,7 +138,7 @@ class PlaceVideos(APIView):
             raise Http404
 
         placeVideo = PlaceVideo(video=request.FILES['video'], thumbnail=request.FILES['thumbnail'])
-        placeVideo.description = request.DATA['description']
+        placeVideo.description = request.DATA.get('description', '')
         placeVideo.creator = self.request.user
         placeVideo.place = place
         placeVideo.location = place.location
