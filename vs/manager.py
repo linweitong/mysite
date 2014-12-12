@@ -63,7 +63,7 @@ class LocationManager(models.Manager):
                        select={'distance': gcd},
                        select_params=[latitude, longitude, latitude],
                        where=[gcd_lt],
-                       params=[latitude, longitude, latitude, 0.5],
+                       params=[latitude, longitude, latitude, 0.2],
                        order_by=['distance']
                    )
 
