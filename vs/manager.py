@@ -45,6 +45,30 @@ class LocationManager(models.Manager):
                    )
 
 
+    def searchPlace(self, latitude, longitude, ):
+         # Great circle distance formula
+        gcd = """
+              6371 * acos(
+               cos(radians(%s)) * cos(radians(vs_place.latitude))
+               * cos(radians(vs_place.longitude) - radians(%s)) +
+               sin(radians(%s)) * sin(radians(vs_place.latitude))
+              )
+              """
+
+        gcd_lt = "{} < %s".format(gcd)
+        return self.get_queryset()\
+                   .exclude(latitude=None)\
+                   .exclude(longitude=None)\
+                   .extra(
+                       select={'distance': gcd},
+                       select_params=[latitude, longitude, latitude],
+                       where=[gcd_lt],
+                       params=[latitude, longitude, latitude, 0.5],
+                       order_by=['distance']
+                   )
+
+
+
 
 
 class PlaceVideoManager(models.Manager):

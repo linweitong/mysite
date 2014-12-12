@@ -83,7 +83,30 @@ class PlaceDetail(APIView):
         if int(pk) == 0:
             latitude = self.request.META.get('HTTP_GEOLATITUDE', 0)
             longitude = self.request.META.get('HTTP_GEOLONGITUDE', 0)
-            place = Place.objects.byDistance(latitude,longitude)[0]
+            places = Place.objects.searchPlace(latitude,longitude)
+            if places.count() > 0:
+                place = places[0]
+            else:
+                try:
+                    place_search=str.format('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=%s,%s&radius=10&types=bar|night_club|cafe&sensor=true&key=%s' %(latitude, longitude,settings.GOOGLE_PLACE_API_KEY))
+                    response = urlopen(place_search).read()
+                    results =json.loads(response)
+                    if results["status"] == 'OK':
+                        result = results["results"][0]
+                        place = Place()
+                        place.type = 1
+                        place.description = ''
+                        place.location = result.get("formatted_address", result.get("vicinity", result["name"]))
+                        place.latitude = result["geometry"]["location"]["lat"]
+                        place.longitude = result["geometry"]["location"]["lng"]
+                        place.name = result["name"]
+                        place.creator = self.request.user
+                        place.save()
+                        place.distance = 0
+                    else:
+                        raise Http404
+                except:
+                    raise Http404
         else:
             place = self.get_object(pk)
         serializer = PlaceSerializer(place)
