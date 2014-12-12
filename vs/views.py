@@ -87,8 +87,7 @@ class PlaceDetail(APIView):
             if places.count() > 0:
                 place = places[0]
             else:
-                try:
-                    place_search=str.format('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=%s,%s&radius=10&types=bar|night_club|cafe&sensor=true&key=%s' %(latitude, longitude,settings.GOOGLE_PLACE_API_KEY))
+                    place_search=str.format('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=%s,%s&radius=50&sensor=true&key=%s' %(latitude, longitude,settings.GOOGLE_PLACE_API_KEY))
                     response = urlopen(place_search).read()
                     results =json.loads(response)
                     if results["status"] == 'OK':
@@ -105,8 +104,6 @@ class PlaceDetail(APIView):
                         place.distance = 0
                     else:
                         raise Http404
-                except:
-                    raise Http404
         else:
             place = self.get_object(pk)
         serializer = PlaceSerializer(place)
