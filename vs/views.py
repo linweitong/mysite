@@ -12,6 +12,7 @@ from urllib2 import urlopen
 import json
 from django.conf import settings
 from django.db.models import Count
+from django.db.models import Q
 
 class PlaceList(APIView):
     """
@@ -83,6 +84,7 @@ class PlaceDetail(APIView):
         if int(pk) == 0:
             latitude = self.request.META.get('HTTP_GEOLATITUDE', 0)
             longitude = self.request.META.get('HTTP_GEOLONGITUDE', 0)
+          
             places = Place.objects.searchPlace(latitude,longitude)
             if places.count() > 0:
                 place = places[0]
@@ -99,13 +101,25 @@ class PlaceDetail(APIView):
                         place.latitude = result["geometry"]["location"]["lat"]
                         place.longitude = result["geometry"]["location"]["lng"]
                         place.name = result["name"]
-                        place.creator = self.request.user
-                        place.save()
+
+                        try:
+                            originalPlace =Place.objects.get(
+                                 Q(name=place.name),
+                                 Q(latitude=place.latitude ),
+                                 Q(longitude=place.longitude ))
+                            place = originalPlace
+
+                        except Place.DoesNotExist:
+                             place.creator = self.request.user
+                             place.save()
+
                         place.distance = 0
+
                     else:
                         raise Http404
         else:
             place = self.get_object(pk)
+
         serializer = PlaceSerializer(place)
         return Response(serializer.data)
 
