@@ -46,12 +46,24 @@ class PaginatedPlaceSerializer(PaginationSerializer):
         object_serializer_class = PlaceSerializer
 
 
+class SimplePlaceSerializer(serializers.ModelSerializer):
+    type = serializers.Field(source=False)
+    creator = VSBasicUserSerializer(read_only=True)
+    additionInfo = serializers.CharField(required=False, allow_none=True)
+
+    class Meta:
+        model = Place
+        fields = ('id', 'name', 'description', 'type', 'location', 'latitude',
+                  'longitude', 'additionInfo')
+
 class PlaceVideoSerializer(serializers.ModelSerializer):
     videoUrl = serializers.SerializerMethodField('getVideoUrl')
     thumbnailUrl = serializers.SerializerMethodField('getThumbnailUrl')
     creator = VSBasicUserSerializer(read_only=True)
     createTimeStamp = serializers.SerializerMethodField('getCreateTimeStamp')
     viewCount = serializers.IntegerField(source=False,read_only=True )
+    place = SimplePlaceSerializer(read_only=True)
+
 
     def getVideoUrl(self, obj):
         if settings.USE_AWS:
@@ -70,7 +82,7 @@ class PlaceVideoSerializer(serializers.ModelSerializer):
     class Meta:
         model = PlaceVideo
         fields = ('id', 'thumbnailUrl', 'videoUrl', 'description', 'creator', 'location', 'latitude', 'longitude',
-                  'createdDate', 'updatedDate', 'createTimeStamp', 'viewCount')
+                  'createdDate', 'updatedDate', 'createTimeStamp', 'viewCount', 'place')
 
 
 class PaginatedPlaceVideoSerializer(PaginationSerializer):
