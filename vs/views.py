@@ -65,6 +65,50 @@ class PlaceList(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class PlaceSearchList(APIView):
+    """
+    List all places, or create a new place.
+    """
+
+    # def get(self, request, format=None):
+    #     snippets = Place.objects.all()
+    #     serializer = PlaceSerializer(snippets, many=True)
+    #     return Response(serializer.data)
+
+    def get(self, request, word='bar', format=None):
+        latitude = self.request.META.get('HTTP_GEOLATITUDE', 0)
+        longitude = self.request.META.get('HTTP_GEOLONGITUDE', 0)
+
+        place_search=str.format('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=%s,%s&rankby=distance&keyword=%s&sensor=false&key=%s' %(latitude, longitude, str(word),settings.GOOGLE_PLACE_API_KEY))
+        response = urlopen(place_search).read()
+        results =json.loads(response)
+        places = []
+        if results["status"] == 'OK':
+            for result in results["results"]:
+                place = Place()
+                place.type = 1
+                place.description = ''
+                place.location = result.get("formatted_address", result.get("vicinity", result["name"]))
+                place.latitude = result["geometry"]["location"]["lat"]
+                place.longitude = result["geometry"]["location"]["lng"]
+                place.name = result["name"]
+
+                try:
+                    originalPlace =Place.objects.get(
+                         Q(name=place.name),
+                         Q(latitude=place.latitude ),
+                         Q(longitude=place.longitude ))
+                    place = originalPlace
+
+                except Place.DoesNotExist:
+                     place.creator = self.request.user
+                     place.save()
+
+                place.distance = 0
+                places.append(place)
+        serializer = PlaceSerializer(places, many=True)
+        return Response(serializer.data)
+
 
 class PlaceDetail(APIView):
     """
